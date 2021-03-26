@@ -9,12 +9,16 @@
     <title>Hexo搭建——关于我踩的坑</title>
     <url>/2021/03/26/Hexo%E6%90%AD%E5%BB%BA%E2%80%94%E2%80%94%E5%85%B3%E4%BA%8E%E6%88%91%E8%B8%A9%E7%9A%84%E5%9D%91/</url>
     <content><![CDATA[<p>第一次搭个人博客，虽然看了不少教程，还是踩了超多的坑啊。</p>
-<h2 id="开始搭建"><a href="#开始搭建" class="headerlink" title="开始搭建"></a>开始搭建</h2><p>我选的是Next主题，原因有两个：一够好看，二教程够多。</p>
+<h2 id="开始搭建"><a href="#开始搭建" class="headerlink" title="开始搭建"></a>开始搭建</h2><p>我选的是Next主题，原因有两个：一是够好看，二是教程够多。</p>
 <p>没想到这么多的教程还是翻车搞了整整一晚上加早上。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>总结我踩过的坑，第一恨的就是哪些被搬来搬去从个人网站到博客园再到CSDN的可恶搬运党了。所以说还是要看官方文档。比如搭建还是看<a href="https://hexo.io/zh-cn/docs/index.html">Hexo官方文档</a>，主题配置还是看<a href="https://theme-next.js.org/page/2/">Next主题官方文档</a>。</p>
 ]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
       <tags>
         <tag>Hexo</tag>
+        <tag>Blog</tag>
       </tags>
   </entry>
   <entry>
