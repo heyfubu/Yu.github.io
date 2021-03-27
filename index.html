@@ -127,8 +127,8 @@
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">3</span></a></li>
         <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">2</span></a></li>
-        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">1</span></a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">5</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -207,13 +207,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -254,6 +254,142 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://ykizheng.github.io/2021/03/27/Enigma%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86-Advanced-Engima-Cracking/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar_2.jpg">
+      <meta itemprop="name" content="介北">
+      <meta itemprop="description" content="很多琐琐碎碎">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yk's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/03/27/Enigma%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86-Advanced-Engima-Cracking/" class="post-title-link" itemprop="url">Enigma加密解密(Advanced Engima Cracking)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-03-27 23:40:08 / 修改时间：23:45:16" itemprop="dateCreated datePublished" datetime="2021-03-27T23:40:08+08:00">2021-03-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>模拟破解engima的过程。</p>
+<p>实际编程不算很难，主要是理解上出了很多次岔子，上课没有好好听啊。</p>
+<h2 id="部件组成"><a href="#部件组成" class="headerlink" title="部件组成"></a>部件组成</h2><p>已知</p>
+<ol>
+<li>Plugboard(插线板)</li>
+<li>RingSetting(齿轮内部设置)</li>
+<li>CipherText(密文)</li>
+<li>Word</li>
+<li>最左齿轮编号</li>
+</ol>
+<p>求解：</p>
+<ol>
+<li>MessageKey</li>
+<li>PlainText(明文)</li>
+<li>RotorNum(齿轮编号)</li>
+</ol>
+<h2 id="加密原理"><a href="#加密原理" class="headerlink" title="加密原理"></a>加密原理</h2><p>先给出3个齿轮的外部状态(明文) 和真正接下来使用的齿轮状态(密文)，共六个字母。用Enigama机在该外部状态下输入密文从而得到对应真正齿轮状态的明文。</p>
+<p>接下来用真正齿轮状态(MessageKey)输入密文字符串得到对应明文或输入明文字符串得到密文。</p>
+<p>对于输入字母经过以下5个阶段</p>
+<ol>
+<li>变为接线板对应字母</li>
+<li>从右到左经过3个齿轮(根据当前MessageKey得到输出)<ol>
+<li>进入齿轮的不是当前变化后的字母，而是Ring Setting后的。即从右往左输入先加delta，从左往右输出减delta。其中delta为当前message-key-ringkey(转子外-内)</li>
+<li>当按下某个键位时，对字母加密的是齿轮转了一下的状态</li>
+</ol>
+</li>
+<li>反射板(两两对应字母)</li>
+<li>从左到右再经过3个齿轮</li>
+<li>变为接线板对应字母</li>
+</ol>
+<p>对于MessageKey的处理</p>
+<ol>
+<li>每按键1次转子只转动一次</li>
+<li>特殊情况：double stepping: 可能会出现两个或三个齿轮共同旋转</li>
+<li>注意RingSetting是固定的</li>
+</ol>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> reflector[]=<span class="string">&quot;YRUHQSLDPXNGOKMIEBFZCWVJAT&quot;</span>; </span><br><span class="line"><span class="keyword">char</span> rotor_table[<span class="number">5</span>][<span class="number">27</span>] = </span><br><span class="line">&#123;</span><br><span class="line"><span class="string">&quot;EKMFLGDQVZNTOWYHXUSPAIBRCJ&quot;</span>,</span><br><span class="line"><span class="string">&quot;AJDKSIRUXBLHWTMCQGZNPYFVOE&quot;</span>,</span><br><span class="line"><span class="string">&quot;BDFHJLCPRTXVZNYEIWGAKMUSQO&quot;</span>,</span><br><span class="line"><span class="string">&quot;ESOVPZJAYQUIRHXLNFTGKDCMWB&quot;</span>,</span><br><span class="line"><span class="string">&quot;VZBRGITYUPSDNHLXAWMJQOFECK&quot;</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">char</span> step_char[<span class="number">5</span>]=<span class="string">&quot;RFWKA&quot;</span>; <span class="comment">// Royal Flags Wave Kings Above</span></span><br><span class="line">MessageKey: 	CRZ</span><br><span class="line">Ring:		TIP</span><br><span class="line">Delta:		<span class="number">-17</span>,<span class="number">9</span>,<span class="number">10</span></span><br><span class="line">C-D</span><br><span class="line">Round <span class="number">1</span>:</span><br><span class="line">	D+<span class="number">10</span> = N-&gt;H<span class="number">-10</span> = X</span><br><span class="line">Round <span class="number">2</span>:</span><br><span class="line">	X+<span class="number">9</span> = G-&gt;R<span class="number">-9</span> = I</span><br><span class="line">Round <span class="number">3</span>:</span><br><span class="line">	I<span class="number">-17</span> = R-&gt;U+<span class="number">17</span> = L</span><br><span class="line">Reflect:</span><br><span class="line">	L-G</span><br><span class="line">Round <span class="number">31</span>:</span><br><span class="line">	G+<span class="number">17</span> = X-&gt;Q<span class="number">-17</span> = Z</span><br><span class="line">	N+<span class="number">17</span> = E-&gt;A<span class="number">-17</span> = J</span><br><span class="line">Round <span class="number">21</span>:</span><br><span class="line">	Z<span class="number">-9</span> = Q-&gt;Q+<span class="number">9</span> = Z</span><br><span class="line">	J<span class="number">-9</span> = A-&gt;A+<span class="number">9</span> = J</span><br><span class="line">Round <span class="number">11</span>:</span><br><span class="line">	Z<span class="number">-10</span> = P-&gt;J+<span class="number">10</span> = T</span><br><span class="line">	J<span class="number">-10</span> = Z-&gt;B+<span class="number">10</span> = L</span><br><span class="line">L-M</span><br></pre></td></tr></table></figure>
+
+<h2 id="解密原理"><a href="#解密原理" class="headerlink" title="解密原理"></a>解密原理</h2><p>遍历，暴力破解。</p>
+<p>依次遍历所有的Rotor_num、MessageKey和密文字符串可能，若出现Word子串，则为正确的。(由于数据设置，只有一个含有子串的匹配项)</p>
+<h2 id="踩坑"><a href="#踩坑" class="headerlink" title="踩坑"></a>踩坑</h2><ul>
+<li>一开始看老师的课件以为反过来从右到左时变为先减Δ，再加Δ，实际还是原来的，不需要考虑变化。</li>
+<li>delta就是可以是负数，不需要考虑对26取模</li>
+<li>MessageKey不是没过一个转子对对应的转子进行+1取模操作，而是根据按键</li>
+<li>Double Setpping有一种状态漏了对最右边转子旋转</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>byy老师的回放视频</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -331,85 +467,6 @@
 <p>没想到这么多的教程还是翻车搞了整整一晚上加早上。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>总结我踩过的坑，第一恨的就是哪些被搬来搬去从个人网站到博客园再到CSDN的可恶搬运党了。所以说还是要看官方文档。比如搭建还是看<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/index.html">Hexo官方文档</a>，主题配置还是看<a target="_blank" rel="noopener" href="https://theme-next.js.org/page/2/">Next主题官方文档</a>。</p>
 
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://ykizheng.github.io/2021/03/26/Hello-Hexo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar_2.jpg">
-      <meta itemprop="name" content="介北">
-      <meta itemprop="description" content="很多琐琐碎碎">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yk's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/03/26/Hello-Hexo/" class="post-title-link" itemprop="url">Hello Hexo</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-03-26 12:46:42" itemprop="dateCreated datePublished" datetime="2021-03-26T12:46:42+08:00">2021-03-26</time>
-    </span>
-
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>0</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          
       
     </div>
 
@@ -562,13 +619,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">1k</span>
+    <span title="站点总字数">2k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1 分钟</span>
+    <span title="站点阅读时长">2 分钟</span>
   </span>
 </div>
 <div class="busuanzi-count">
