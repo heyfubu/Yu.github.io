@@ -3,7 +3,9 @@
   <entry>
     <title>Hexo搭建——关于我踩的坑</title>
     <url>/2021/03/26/Hexo%E6%90%AD%E5%BB%BA%E2%80%94%E2%80%94%E5%85%B3%E4%BA%8E%E6%88%91%E8%B8%A9%E7%9A%84%E5%9D%91/</url>
-    <content><![CDATA[<p>第一次搭个人博客，虽然看了不少教程，还是踩了超多的坑啊。</p>
+    <content><![CDATA[<p>第一次搭个人博客，虽然看了不少教程，还是踩了超多的坑。这里总结一下。</p>
+<span id="more"></span>
+
 <h2 id="开始搭建"><a href="#开始搭建" class="headerlink" title="开始搭建"></a>开始搭建</h2><p>我选的是Next主题，原因有两个：一是够好看，二是教程够多。</p>
 <p>没想到这么多的教程还是翻车搞了整整一晚上加早上。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>总结我踩过的坑，第一恨的就是哪些被搬来搬去从个人网站到博客园再到CSDN的可恶搬运党了。所以说还是要看官方文档。比如搭建还是看<a href="https://hexo.io/zh-cn/docs/index.html">Hexo官方文档</a>，主题配置还是看<a href="https://theme-next.js.org/page/2/">Next主题官方文档</a>。</p>
@@ -17,9 +19,55 @@
       </tags>
   </entry>
   <entry>
+    <title>基于python+selenium+tasksch实现的PTA每日自动打卡</title>
+    <url>/2021/05/19/%E5%9F%BA%E4%BA%8Epython+selenium+tasksch%E5%AE%9E%E7%8E%B0%E7%9A%84PTA%E6%AF%8F%E6%97%A5%E8%87%AA%E5%8A%A8%E6%89%93%E5%8D%A1/</url>
+    <content><![CDATA[<p>每次考试周前都要给PTA充钱买卷子，花费甚多，内心不安。为了减少用钻石付费金币的惨剧，写了个PTA自动打卡的程序。</p>
+<p>编程语言为python，参考了前辈的代码，利用selenium实现。</p>
+<span id="more"></span> 
+
+<p>由于签到需要先登录，所以用代码获取登录状态下的cookie后，cookie直接实现登录网页。然后用xpath定位签到按钮，执行一次click，完成签到。</p>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>需要先行下载 python 与 selenium，可以使用pip。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install selenium</span><br></pre></td></tr></table></figure>
+
+<p>高版本的 selenium 需要配合 geckodriver 使用，点击<a href="https://github.com/mozilla/geckodriver/releases">这里</a>自行下载对应版本并添加环境变量。</p>
+<p>替换py文件中的绝对路径为对应本机的位置。</p>
+<p>先运行login.py，设置断点在 <code>dictCookies = driver.get_cookies()</code> 处，在弹出的页面登录，登录成功后继续运行，得到登录cookie。</p>
+<p>尝试运行check.py，由于签到按钮只可按动一次，推荐注释掉57行，不注释58行进行验证。</p>
+<h3 id="利用-bat-tasksch-自动打卡"><a href="#利用-bat-tasksch-自动打卡" class="headerlink" title="利用 bat+tasksch 自动打卡"></a>利用 bat+tasksch 自动打卡</h3><p>打开记事本，输入并保存为 <code>Run_PTA_Check.bat</code> </p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">&quot;python.exe所在路径，如C:\Python39\python.exe&quot;  &quot;check.py所在路径，如D:\Code\check.py&quot; </span><br></pre></td></tr></table></figure>
+
+<p>接下来利用windows自带的任务计划程序实现。</p>
+<p>win+R，输入taskschd.msc打开任务计划程序</p>
+<img src="..\images\PTA1.png" alt="image-20210519134336503" style="zoom: 33%;" />
+
+<p>创建基本任务</p>
+<img src="..\images\PTA1.png" alt="PTA1" style="zoom: 33%;" />
+
+<p>名称随便输入，自己记得就好。触发器设置为每天。操作设置为启动程序。</p>
+<img src="../images/PTA3.png" style="zoom: 33%;" />
+
+<p>程序或脚本处输出.bat文件路径，点击下一步并完成。</p>
+<img src="..\images\PTA4.png" alt="image-20210519134850214" style="zoom: 33%;" />
+
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>login.py</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">@Description: 得到登录cookie, 保存为cookie_pintia.json</span></span><br><span class="line"><span class="string">@Author: ykiZheng</span></span><br><span class="line"><span class="string">@Date: 2021/5/19</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;https://pintia.cn/market&#x27;</span></span><br><span class="line">FireFox_options = webdriver.FirefoxOptions()</span><br><span class="line">FireFox_options.add_argument(<span class="string">&#x27;--headless&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将 &#x27;C://geckodriver&#x27; 替换为本机geckodriver所在位置</span></span><br><span class="line">driver = webdriver.Firefox(executable_path=<span class="string">&#x27;C://geckodriver&#x27;</span>,service_log_path=<span class="string">&quot;&quot;</span>)  <span class="comment"># 打开运行  </span></span><br><span class="line">driver.get(url)</span><br><span class="line"></span><br><span class="line">dictCookies = driver.get_cookies()  <span class="comment">#获得所有cookie信息(返回是字典)</span></span><br><span class="line"><span class="built_in">print</span>(dictCookies)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(dictCookies))</span><br><span class="line">jsonCookies = json.dumps(dictCookies)  <span class="comment">#dumps是将dict转化成str格式</span></span><br><span class="line"><span class="built_in">print</span>(jsonCookies)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(jsonCookies))</span><br><span class="line"><span class="comment"># 登录完成后,将cookies保存到本地文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;cookies_pintia.json&quot;</span>, <span class="string">&quot;w&quot;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    fp.write(jsonCookies)</span><br></pre></td></tr></table></figure>
+
+<p>check.py</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">@Description: 利用cookie实现PTA自动打卡</span></span><br><span class="line"><span class="string">@Author: ykiZheng</span></span><br><span class="line"><span class="string">@Date: 2021/5/19</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver<span class="comment">#导入库</span></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">name_stu = [</span><br><span class="line">    <span class="string">&#x27;我的大号&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;我的小号&#x27;</span></span><br><span class="line">]</span><br><span class="line">str_out = [] <span class="comment"># 将要写入文件的文本</span></span><br><span class="line"><span class="comment"># 初始化selenium</span></span><br><span class="line">url = <span class="string">&#x27;https://pintia.cn/market&#x27;</span></span><br><span class="line">FireFox_options = webdriver.FirefoxOptions()</span><br><span class="line">FireFox_options.add_argument(<span class="string">&#x27;--headless&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择运行模式</span></span><br><span class="line"><span class="comment"># 将 &#x27;C://geckodriver&#x27; 替换为本机geckodriver所在位置</span></span><br><span class="line">driver = webdriver.Firefox(executable_path=<span class="string">&#x27;C://geckodriver&#x27;</span>,service_log_path=<span class="string">&quot;&quot;</span>)  <span class="comment"># 打开运行</span></span><br><span class="line"><span class="comment"># driver = webdriver.FireFox(chrome_options=chrome_options)  # 静默运行</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># driver.maximize_window() # 最大化网页</span></span><br><span class="line">driver.get(url)</span><br><span class="line">driver.delete_all_cookies() <span class="comment"># 删除所有cookie信息</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将 &#x27;D://Code/cookies_pintia.json&#x27; 替换为本机cookies_pintia.json所在路径</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;D://Code/cookies_pintia.json&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    listCookies = json.loads(f.read())     <span class="comment">#loads是将str转化成dict格式</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> cookie <span class="keyword">in</span> listCookies:</span><br><span class="line">    driver.add_cookie(&#123;     <span class="comment">#此处模仿之前生成的cookies_pintia.json的格式写即可，要用单引号，因为已经转成dict格式了</span></span><br><span class="line">        <span class="string">&#x27;domain&#x27;</span>: <span class="string">&#x27;.pintia.cn&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;name&#x27;</span>: cookie[<span class="string">&#x27;name&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;value&#x27;</span>: cookie[<span class="string">&#x27;value&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;path&#x27;</span>: <span class="string">&#x27;/&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;expires&#x27;</span>: <span class="literal">None</span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">driver.get(url)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 当前时间</span></span><br><span class="line">tm_year = time.localtime().tm_year</span><br><span class="line">tm_mon = time.localtime().tm_mon</span><br><span class="line">tm_day = time.localtime().tm_mday</span><br><span class="line">tm_hour = time.localtime().tm_hour</span><br><span class="line">tm_min = time.localtime().tm_min</span><br><span class="line">tm_sec = time.localtime().tm_sec</span><br><span class="line">str_time = <span class="string">&#x27;\n&#x27;</span> + <span class="built_in">str</span>(tm_year) + <span class="string">&#x27;年&#x27;</span>+<span class="built_in">str</span>(tm_mon) + <span class="string">&#x27;月&#x27;</span> +<span class="built_in">str</span>(tm_day) + <span class="string">&#x27;日&#x27;</span> + <span class="built_in">str</span>(tm_hour) + <span class="string">&#x27;时&#x27;</span> + <span class="built_in">str</span>(tm_min) + <span class="string">&#x27;分&#x27;</span> + <span class="built_in">str</span>(tm_sec) + <span class="string">&#x27;秒\n&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># time.sleep(1.5)</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment"># 签到</span></span><br><span class="line">    element = driver.find_element_by_xpath(<span class="string">&#x27;/html/body/div/div[1]/header/div/div/button&#x27;</span>)</span><br><span class="line">    <span class="comment">#充值-用来测试能否找到组件</span></span><br><span class="line">    <span class="comment">#element = driver.find_element_by_xpath(&#x27;/html/body/div/div[1]/header/div/div/a[1]&#x27;)</span></span><br><span class="line">    element.click()</span><br><span class="line">    str_out.append(name_stu[<span class="number">0</span>] +<span class="string">&#x27;签到成功\n&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;签到成功&#x27;</span>)</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    str_out.append(name_stu[<span class="number">0</span>] +<span class="string">&#x27;未找到组件\n&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;未找到组件&#x27;</span>)</span><br><span class="line"><span class="comment"># time.sleep(1)</span></span><br><span class="line"></span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line">driver.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 记录日志</span></span><br><span class="line"><span class="built_in">print</span>(str_time + <span class="built_in">str</span>(str_out) + <span class="string">&#x27;正在将结果写入文件\n&#x27;</span>)</span><br><span class="line"><span class="comment"># 将 &#x27;D:\Code\PTA签到\out.txt&#x27; 替换为想要的本机log路径</span></span><br><span class="line">out = <span class="built_in">open</span>(<span class="string">r&#x27;D:\Code\PTA签到\out.txt&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">out.write(str_time)</span><br><span class="line">out.writelines(str_out)</span><br><span class="line">out.close()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;文件写入完成\n&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://www.tyu.zone/index.php/2020/10/17/%E5%9F%BA%E4%BA%8Epythonselenium%E5%AE%9E%E7%8E%B0pta%E8%87%AA%E5%8A%A8%E6%89%93%E5%8D%A1/">基于python+selenium实现pta自动打卡</a></p>
+]]></content>
+      <tags>
+        <tag>Python</tag>
+        <tag>Selenium</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2021/03/26/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<span id="more"></span>
+
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
@@ -39,6 +87,8 @@
     <url>/2021/03/27/Enigma%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86-Advanced-Engima-Cracking/</url>
     <content><![CDATA[<p>模拟破解engima的过程。</p>
 <p>实际编程不算很难，主要是理解上出了很多次岔子，上课没有好好听啊。</p>
+<span id="more"></span>
+
 <h2 id="部件组成"><a href="#部件组成" class="headerlink" title="部件组成"></a>部件组成</h2><p>已知</p>
 <ol>
 <li>Plugboard(插线板)</li>
