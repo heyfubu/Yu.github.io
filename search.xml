@@ -101,56 +101,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>Linux下载selenium+chrome+chrome driver</title>
-    <url>/2021/05/20/Linux%E4%B8%8B%E8%BD%BDselenium-chrome-chrome-driver/</url>
-    <content><![CDATA[<p>自动签到等脚本运行往往需要部署在云服务器上。由于本人的服务器为 Linux系统，接下来就演示如何部署签到系统所需的selenium+chrome+chrome driver的下载。</p>
-<span id="more"></span>
-
-<h2 id="下载python-selenium"><a href="#下载python-selenium" class="headerlink" title="下载python+selenium"></a>下载python+selenium</h2><p><a href="https://www.cnblogs.com/kimyeee/p/7250560.html">Linux下安装Python3.6和第三方库</a></p>
-<p>按这个做</p>
-<p>然后就可以用pip下载了</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip3 install selenium</span><br></pre></td></tr></table></figure>
-
-<h2 id="下载chrome-chrome-driver"><a href="#下载chrome-chrome-driver" class="headerlink" title="下载chrome+chrome driver"></a>下载chrome+chrome driver</h2><ol>
-<li>下载chrome浏览器，headless版本</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install libxss1 libappindicator1 libindicator7</span><br><span class="line">wget https:&#x2F;&#x2F;dl.google.com&#x2F;linux&#x2F;direct&#x2F;google-chrome-stable_current_amd64.deb</span><br><span class="line">sudo dpkg -i google-chrome*.deb  # Might show &quot;errors&quot;, fixed by next line</span><br><span class="line">sudo apt-get install -f</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>查看chrome版本，查看对应版本号，本机为 90.0.4430</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">google-chrome --version</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>下载对应版本的chrome driver，本机为 90.0.4430.24，故在<a href="http://npm.taobao.org/mirrors/chromedriver/%E9%80%89%E6%8B%A9%E5%AF%B9%E5%BA%94%E7%9A%84%E7%89%88%E6%9C%AC%EF%BC%8C%E4%BD%BF%E7%94%A8wget%E4%B8%8B%E8%BD%BD">http://npm.taobao.org/mirrors/chromedriver/选择对应的版本，使用wget下载</a></li>
-</ol>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">wget http://npm.taobao.org/mirrors/chromedriver/<span class="number">90.0</span><span class="number">.4430</span><span class="number">.24</span>/ <span class="comment">#注意将90.0.4430.24替换为你的chrome对应的chromedriver版本</span></span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>解压到 /usr/bin</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">unzip chromedriver_linux64.<span class="built_in">zip</span> /usr/<span class="built_in">bin</span></span><br></pre></td></tr></table></figure>
-
-<ol start="5">
-<li>查看chrome driver版本</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">chromedriver --version</span><br></pre></td></tr></table></figure>
-
-<ol start="6">
-<li>测试</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"> </span><br><span class="line">chrome_options  = webdriver.ChromeOptions()</span><br><span class="line">chrome_options.add_argument(<span class="string">&quot;--headless&quot;</span>)</span><br><span class="line">chrome_options.add_argument(<span class="string">&quot;--disable-gpu&quot;</span>)</span><br><span class="line">chrome_options.add_argument(<span class="string">&quot;--no-sandbox&quot;</span>)</span><br><span class="line">browser = webdriver.Chrome(chrome_options=chrome_options)</span><br><span class="line">browser.get(<span class="string">&quot;https://www.baidu.com&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(browser.page_source)</span><br><span class="line">browser.quit()</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.codeleading.com/article/73622389627/">linux云服务器使用selenium chrome chromedriver</a></p>
-<p><a href="https://www.cnblogs.com/kimyeee/p/7250560.html">Linux下安装Python3.6和第三方库</a></p>
-]]></content>
-      <tags>
-        <tag>Linux</tag>
-        <tag>selenium</tag>
-        <tag>chrome driver</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>基于python+selenium+tasksch实现的PTA每日自动打卡</title>
     <url>/2021/05/19/%E5%9F%BA%E4%BA%8Epython-selenium-tasksch%E5%AE%9E%E7%8E%B0%E7%9A%84PTA%E6%AF%8F%E6%97%A5%E8%87%AA%E5%8A%A8%E6%89%93%E5%8D%A1/</url>
     <content><![CDATA[<p>每次考试周前都要给PTA充钱买卷子，花费甚多，内心不安。为了减少用钻石付费金币的惨剧，写了个PTA自动打卡的程序。</p>
@@ -195,8 +145,58 @@
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://www.tyu.zone/index.php/2020/10/17/%E5%9F%BA%E4%BA%8Epythonselenium%E5%AE%9E%E7%8E%B0pta%E8%87%AA%E5%8A%A8%E6%89%93%E5%8D%A1/">基于python+selenium实现pta自动打卡</a></p>
 ]]></content>
       <tags>
-        <tag>selenium</tag>
         <tag>Python</tag>
+        <tag>selenium</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux下载selenium+chrome+chrome driver</title>
+    <url>/2021/05/20/Linux%E4%B8%8B%E8%BD%BDselenium-chrome-chrome-driver/</url>
+    <content><![CDATA[<p>自动签到等脚本运行往往需要部署在云服务器上。由于本人的服务器为 Linux系统，接下来就演示如何部署签到系统所需的selenium+chrome+chrome driver的下载。</p>
+<span id="more"></span>
+
+<h2 id="下载python-selenium"><a href="#下载python-selenium" class="headerlink" title="下载python+selenium"></a>下载python+selenium</h2><p><a href="https://www.cnblogs.com/kimyeee/p/7250560.html">Linux下安装Python3.6和第三方库</a></p>
+<p>按这个做</p>
+<p>然后就可以用pip下载了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip3 install selenium</span><br></pre></td></tr></table></figure>
+
+<h2 id="下载chrome-chrome-driver"><a href="#下载chrome-chrome-driver" class="headerlink" title="下载chrome+chrome driver"></a>下载chrome+chrome driver</h2><ol>
+<li>下载chrome浏览器，headless版本</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install libxss1 libappindicator1 libindicator7</span><br><span class="line">wget https:&#x2F;&#x2F;dl.google.com&#x2F;linux&#x2F;direct&#x2F;google-chrome-stable_current_amd64.deb</span><br><span class="line">sudo dpkg -i google-chrome*.deb  # Might show &quot;errors&quot;, fixed by next line</span><br><span class="line">sudo apt-get install -f</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>查看chrome版本，查看对应版本号，本机为 90.0.4430</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">google-chrome --version</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>下载对应版本的chrome driver，本机为 90.0.4430.24，故在<a href="http://npm.taobao.org/mirrors/chromedriver/%E9%80%89%E6%8B%A9%E5%AF%B9%E5%BA%94%E7%9A%84%E7%89%88%E6%9C%AC%EF%BC%8C%E4%BD%BF%E7%94%A8wget%E4%B8%8B%E8%BD%BD">http://npm.taobao.org/mirrors/chromedriver/选择对应的版本，使用wget下载</a></li>
+</ol>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">wget http://npm.taobao.org/mirrors/chromedriver/<span class="number">90.0</span><span class="number">.4430</span><span class="number">.24</span>/ <span class="comment">#注意将90.0.4430.24替换为你的chrome对应的chromedriver版本</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>解压到 /usr/bin</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">unzip chromedriver_linux64.<span class="built_in">zip</span> /usr/<span class="built_in">bin</span></span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>查看chrome driver版本</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">chromedriver --version</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>测试</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"> </span><br><span class="line">chrome_options  = webdriver.ChromeOptions()</span><br><span class="line">chrome_options.add_argument(<span class="string">&quot;--headless&quot;</span>)</span><br><span class="line">chrome_options.add_argument(<span class="string">&quot;--disable-gpu&quot;</span>)</span><br><span class="line">chrome_options.add_argument(<span class="string">&quot;--no-sandbox&quot;</span>)</span><br><span class="line">browser = webdriver.Chrome(chrome_options=chrome_options)</span><br><span class="line">browser.get(<span class="string">&quot;https://www.baidu.com&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(browser.page_source)</span><br><span class="line">browser.quit()</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.codeleading.com/article/73622389627/">linux云服务器使用selenium chrome chromedriver</a></p>
+<p><a href="https://www.cnblogs.com/kimyeee/p/7250560.html">Linux下安装Python3.6和第三方库</a></p>
+]]></content>
+      <tags>
+        <tag>selenium</tag>
+        <tag>Linux</tag>
+        <tag>chrome driver</tag>
       </tags>
   </entry>
 </search>
